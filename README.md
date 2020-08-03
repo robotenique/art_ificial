@@ -5,31 +5,28 @@ Here are some of the Processing sketches in this repo, with a comment on what I 
 
 - *arc_structures*
 
-    Uses pygame to simulate how a BFS works;
-    <p align="center"> <img src="https://i.imgur.com/k9OoRPO.gif"/></p>
+    Using a grid of randomly generated [Lissajous curve](https://en.wikipedia.org/wiki/Lissajous_curve) with an RGB gradient;
+    <p align="center"> <img src="processing/arc_structures/arc-05091.png" width="400"></p>
 
 - *flower_bezier*
 
-    Uses a random path particle simulation to create neural/root -like structures. Takes longer to construct the bigger the resolution is set in the code; (req. pygame)
-    <p align="center"> <img src="multimedia/imgDemo/drunkenSailor.png"/></p>
+    Uses a grid of Bezier-based geometric shapes, the patterns are added using a recursive random division of the grid into smaller parts;
+    <p align="center"> <img src="processing/flower_bezier/pattern-00209.png" width="400"></p>
 
 - *flower_of_life*
 
-    An experiment in pygame using text, mouse events, sprite and a timer;
-    <p align="center"> <img src="multimedia/imgDemo/pygameSimple.png"/></p>
+    Implementation of Sacred Geometry's [Flower of Life](https://en.wikipedia.org/wiki/Overlapping_circles_grid#Modern_usage) pattern. This sketch is interactive and the position of the mouse changes the geometrical shape; [GIF HERE](https://i.imgur.com/mmLGusw.gif).
+    <p align="center"> <img src="processing/flower_of_life/flower_of_life_base.png" width="400"></p>
 
 - *fractal_tree*
 
-    Very simple ball physics test using the **pyglet** library. The green ball is in a simple harmonic oscillator movement, the red ball is in a movement with no acceleration, and the purple ball is in an accelerated movement.
-    <p align="center"> <img src="multimedia/imgDemo/pygletAnim.png"/></p>
+    Simple fractal tree implementation; [GIF HERE](https://i.imgur.com/VoXciUz.gif).
+    <p align="center"> <img src="processing/fractal_tree/fractal_tree-000080.png" width="400"></p>
 
 - *spiral*
-
-    Uses the turtle module to create Koch fractals recursively with random colors in the form of a snowflake. The recursion level can be changed manually at the code (default: 3);
-    <p align="center"> <img src="multimedia/imgDemo/turtleFractals.png"/></p>
+    
+    Simple spiral using circles moving alongside a Spiral parametrized in Polar Equations; [GIF HERE](https://i.imgur.com/k9OoRPO.gif).
 
 - *squares_linked*
 
-    Given a image (preferably simple), it prints out the list of (i, j) positions to "recreate" the image. You can see images generated with this type of approach at the "*imgDemo*" folder inside this directory. This application it's very useful in [this kind of program](https://github.com/robotenique/intermediateProgramming/tree/master/MAC0323/EP5);
-    
-    <p align="center"> <img src="multimedia/imgDemo/genTxt.png"/></p>
+    Moving Squares, where each new square can randomly generate a "child" and so on. Each square is linked to its father, and move alongside the screen;
