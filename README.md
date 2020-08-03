@@ -6,7 +6,7 @@ Here are some of the Processing sketches in this repo, with a comment on what I 
 - *arc_structures*
 
     Uses pygame to simulate how a BFS works;
-    <p align="center"> <img src="https://i.imgur.com/k9OoRPO.gif/></p>
+    <p align="center"> <img src="https://i.imgur.com/k9OoRPO.gif"/></p>
 
 - *flower_bezier*
 
