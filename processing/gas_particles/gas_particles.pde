@@ -1,36 +1,42 @@
  import java.util.Iterator;
 ArrayList<NoisyBrush> brushList;
-
+int numBrushes;
 void setup(){
   size(1920, 1150); // window size
   background(0); // black background
-  frameRate(120); // 60 frames per second
+  frameRate(130); // 60 frames per second
   noStroke(); // remove the outline
   brushList = new ArrayList<NoisyBrush>();
   float defaultInc = 0.001;
   float defaultxoff = 0.0;
   float defaultyoff = 5.0;
-  NoisyBrush[] suit = {
-    new NoisyBrush(
-      defaultxoff,
-      defaultyoff,
-      defaultInc,
-      new ColorRGB(255, 0, 0),
-      new ColorRGB(255, 230, 0),
-      500
-    ),
-    new NoisyBrush(
-      defaultxoff + 5,
-      defaultyoff - 3,
-      defaultInc,
-      new ColorRGB(255, 255, 200),
-      new ColorRGB(255, 0, 0),
-      100
-    )
-  };
+  numBrushes =  50;
 
-  for (NoisyBrush nb : suit) {
-    brushList.add(nb);
+  // rainbow spectrum
+  ArrayList<ColorRGB> colorsSpectrum = new ArrayList<ColorRGB>() {
+    {
+        add(new ColorRGB(148, 0, 211));
+        add(new ColorRGB(75, 0, 130));
+        add(new ColorRGB(0, 0, 255));
+        add(new ColorRGB(0, 255, 0));
+        add(new ColorRGB(255, 255, 0));
+        add(new ColorRGB(255, 127, 0));
+        add(new ColorRGB(255, 0 , 0));
+    }
+};
+
+
+  for (int i = 0; i < numBrushes; ++i) {
+    brushList.add(
+      new NoisyBrush(
+      defaultxoff + random(1, 20),
+      defaultyoff + random(4),
+      defaultInc + .001,
+      colorsSpectrum.get(i%colorsSpectrum.size()),
+      new ColorRGB(colorsSpectrum.get(i%colorsSpectrum.size()).r, 255, 255),
+      int(random(50, 100))
+    )
+    );
   }
 
   // brushList.add(new NoisyBrush(new ColorRGB(255.0, 255.0, 255.0), new ColorRGB(100.0, 100.0, 255.0), 10));
@@ -42,7 +48,7 @@ void setup(){
 
 void draw(){
   // alpha background
-  fill(0, 5);
+  fill(0, 25);
   rect(0, 0, width, height);
   for (NoisyBrush nb : brushList) 
     nb.draw();
@@ -60,6 +66,7 @@ class NoisyBrush {
   int sizeW = 25;
   int auxV = 1; // to invert the counting method
   int nColors;
+  float randomAdjToNoise, ellipseGrowBehavior;
 
   NoisyBrush (float xoff, float yoff, float xincrement, ColorRGB start, ColorRGB end, int nColors) {
     this.xoff = xoff;
@@ -68,6 +75,8 @@ class NoisyBrush {
     this.start = start;
     this.innerColors = new ColorGradient(start, end, nColors);
     this.nColors = nColors;
+    this.randomAdjToNoise = random(1, 2);
+    this.ellipseGrowBehavior = random(0, 2);
     sizeW = int(random(25, 50));
   }
 
@@ -78,8 +87,8 @@ class NoisyBrush {
 
 
   void draw() {
-    float noiseVal = noise(xoff)*width;
-    float noiseValHeight = noise(yoff)*height;
+    float noiseVal = noise(xoff)*width*randomAdjToNoise - width/4;
+    float noiseValHeight = noise(yoff)*height*randomAdjToNoise - height/4;
     xoff += xincrement;
     yoff += xincrement;
     push();
@@ -95,21 +104,12 @@ class NoisyBrush {
         auxV = 1;
     }
       
-    ellipse(noiseVal, noiseValHeight, sizeW*(abs(sin(millis()*0.001)) +0.5), sizeW*(abs(cos(millis()*0.001)) +0.5));
+    ellipse(noiseVal%width, noiseValHeight%height,
+     sizeW*(abs(sin(millis()*0.001 + ellipseGrowBehavior)) +0.3),
+     sizeW*(abs(sin(millis()*0.001)) +0.1));
     pop();
   }
 
-}
-
-// aux functions
-int signum(float f) {
-  if (f > 0) return 1;
-  if (f < 0) return -1;
-  return 0;
-}
-
-float squareWave(float x) {
-  return signum(sin(PI*x));
 }
 
 /**
@@ -170,6 +170,7 @@ class ColorGradient implements Iterator<ColorRGB>{
     float alpha = 0;
     for(int i=0; i < numColors; i++){
       ColorRGB newColor = new ColorRGB();
+      // I don't remember where I got this...
       alpha += (1.0/numColors);
       newColor.r = start.r*alpha + (1 - alpha) * end.r;
       newColor.g = start.g*alpha + (1 - alpha) * end.g;
