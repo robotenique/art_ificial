@@ -19,7 +19,7 @@ void setup(){
     }
   
   }
-  for(SshapedCurve _: ssArray) {
+  for(SshapedCurve a: ssArray) {
     numPetalsList.add(int(random(3, 10)));
   }
 }
