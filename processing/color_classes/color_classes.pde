@@ -31,8 +31,8 @@ void draw() {
 */
 class ColorRGB {
   public float r, g, b;
-  public float alpha = 1.0;
-  
+  public float alpha = 255.0;
+
   ColorRGB (float r, float g, float b) {
     this.r = r;
     this.g = g;
@@ -40,12 +40,16 @@ class ColorRGB {
   }
 
   ColorRGB (float r, float g, float b, float alpha) {
-    ColorRGB(r, g, b);
+    this.r = r;
+    this.g = g;
+    this.b = b;
     this.alpha = alpha;
   }
 
   ColorRGB() {
-    ColorRGB(0, 0, 0);
+    this.r = 0;
+    this.g = 0;
+    this.b = 0;
   }
 
   color toColor() {
@@ -63,7 +67,7 @@ class ColorGradient implements Iterator<ColorRGB>{
   ColorRGB start, end;
   int numColors;
   public ArrayList<ColorRGB> gradient;
-  int indexCycle = 0;
+  public int indexCycle = 0;
   
   ColorGradient (ColorRGB start, ColorRGB end, int numColors) {
     this.start = start;
@@ -77,6 +81,7 @@ class ColorGradient implements Iterator<ColorRGB>{
     float alpha = 0;
     for(int i=0; i < numColors; i++){
       ColorRGB newColor = new ColorRGB();
+      // I don't remember where I got this...
       alpha += (1.0/numColors);
       newColor.r = start.r*alpha + (1 - alpha) * end.r;
       newColor.g = start.g*alpha + (1 - alpha) * end.g;
@@ -95,6 +100,4 @@ class ColorGradient implements Iterator<ColorRGB>{
   public boolean hasNext() {
     return true;
   }
-
-  
 }
