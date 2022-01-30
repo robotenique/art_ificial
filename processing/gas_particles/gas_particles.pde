@@ -47,6 +47,7 @@ void setup(){
 }
 
 void draw(){
+  saveIfNeeded();
   // alpha background
   fill(0, 25);
   rect(0, 0, width, height);
@@ -55,7 +56,13 @@ void draw(){
   
 }
 
-
+void saveIfNeeded(){
+  if (keyPressed) {
+    if (key == 's') {
+      saveFrame("pattern-#####.png");
+    }
+  }
+}
 // single Entity Object
 class NoisyBrush {
   float xoff = 0.0;
