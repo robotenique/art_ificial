@@ -38,12 +38,6 @@ void setup(){
     )
     );
   }
-
-  // brushList.add(new NoisyBrush(new ColorRGB(255.0, 255.0, 255.0), new ColorRGB(100.0, 100.0, 255.0), 10));
-  // brushList.add(new NoisyBrush(new ColorRGB(255.0, 0.0, 255.0), new ColorRGB(100.0, 100.0, 255.0), 10));
-
-
-  // nb = new NoisyBrush(new ColorRGB(255.0, 255.0, 255.0), new ColorRGB(100.0, 100.0, 255.0), 10);
 }
 
 void draw(){

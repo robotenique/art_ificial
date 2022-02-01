@@ -66,14 +66,25 @@ class ColorRGB {
 class ColorGradient implements Iterator<ColorRGB>{
   ColorRGB start, end;
   int numColors;
+  int gradientMode; // either 0 (default iteration method) or 1 (pyramid iteration method)
   public ArrayList<ColorRGB> gradient;
   public int indexCycle = 0;
+  int auxV = 1; // to invert the counting method (only used for gradientMode = 1)
   
   ColorGradient (ColorRGB start, ColorRGB end, int numColors) {
     this.start = start;
     this.end= end;
     this.numColors = numColors;
     this.gradient = calculateColorGradient();
+    this.gradientMode = 0;
+  }
+
+  ColorGradient (ColorRGB start, ColorRGB end, int numColors, int mode) {
+    this.start = start;
+    this.end= end;
+    this.numColors = numColors;
+    this.gradient = calculateColorGradient();
+    this.gradientMode = mode;
   }
   
   ArrayList<ColorRGB> calculateColorGradient() {
@@ -93,7 +104,15 @@ class ColorGradient implements Iterator<ColorRGB>{
 
   public ColorRGB next() {
     ColorRGB nextColor = gradient.get(indexCycle%numColors);
-    indexCycle++;
+    if (gradientMode == 0) {
+        indexCycle++;    
+    } else if (gradientMode >= 1) {
+        indexCycle += auxV;
+        if (indexCycle == (numColors - 1))
+            auxV = -1;
+        if (indexCycle == 0)
+            auxV = 1;
+    }
     return nextColor;
   }
   // always have next color

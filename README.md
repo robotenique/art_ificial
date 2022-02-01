@@ -30,3 +30,13 @@ Here are some of the Processing sketches in this repo, with a comment on what I 
 - *squares_linked*
 
     Moving Squares, where each new square can randomly generate a "child" and so on. Each square is linked to its father, and move alongside the screen;
+
+---
+
+[Misc. Reference for Processing](docs/misc.md)
+
+TODO:
+
+- Parametric functions
+
+- Recurrence relations
