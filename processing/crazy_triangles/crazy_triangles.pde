@@ -5,7 +5,7 @@ import java.util.Random;
 ArrayList<TriangleStore> triangles;
 float defaultSpeed, manualGambiarraNumber, timeToRecord;
 int backgroundColor, backgroundAlpha, toRotate;
-boolean toChangeSpeed, saveFrames;
+boolean toChangeSpeed, saveFrames, toYaxisNoise;
 float fixMillis=0;
 /*
  * A bunch of stuff here is based on some trigonometry relations.
@@ -15,7 +15,7 @@ float fixMillis=0;
  * wiggle y-axis trajectory
  * color gradient
  * custom randomly determined rotation
- * maybe add a reflection (x-axis) coming from the other side :D1
+ * maybe add a reflection (x-axis) coming from the other side :D
  */
 
 void setup(){
@@ -23,16 +23,17 @@ void setup(){
   background(0); // black background
   frameRate(60); // 60 frames per second
   // ----------- GENERAL CANVAS CONFIG -----------
-  int numTriangles = 10;
+  int numTriangles = 15;
   backgroundColor = 0;
   backgroundAlpha = 15;
   toRotate = 1;
+  toYaxisNoise = true;
   toChangeSpeed = false;
   defaultSpeed = 0.045;
-  saveFrames = true;
+  saveFrames = false;
   timeToRecord = 90; // time to record sketch in seconds
   manualGambiarraNumber = 16.99; // :D power user feature
-
+  // ------------ END CANVAS CONFIG --------------
 
 
   float triangleSide = (float)((2/Math.sqrt(3))*(height/numTriangles)); // height is side*(sqrt(3)/2)
@@ -111,12 +112,16 @@ class TriangleStore{
         fill(dummyC.r, dummyC.g, dummyC.b, 255);
         translate(p1, p2);
         noStroke();
+        // rotation
         rotate(toRotate*rd3*0.006*fixMillis*PI/4);
+        // outer triangle
         triangle(tx1, ty1, tx2, ty2, tx3, ty3);
+        // gradient for the inner triangle and sides (https://www.desmos.com/calculator/6otsu0c3fs)
         float componentR = floor(100*exp(sin(0.004*fixMillis + 1)) - 16);
         float componentG = floor(100*exp(sin(0.004*fixMillis - 1)) - 16);
         float componentB = floor(100*exp(sin(0.004*fixMillis + 2)) - 16);
         fill(componentR, componentG ,componentB, 255); // inv the color but applying some handcrafted adjustment
+        // inner triangle (1)
         triangle((tx1 + tx2)/2, (ty1 + ty2)/2, (tx2 + tx3)/2, (ty2 + ty3)/2, (tx3 + tx1)/2, (ty3 + ty1)/2);
         stroke(componentR, componentG, componentB, 200);
         strokeWeight(2);
@@ -125,6 +130,7 @@ class TriangleStore{
         line(tx2, ty2, tx3, ty3);
         stroke(255, componentG, componentB, 200);
         line(tx3, ty3, tx1, ty1);
+        // update triangle position to the next iteration
         this.self_adjust();
         pop();
     }
@@ -133,6 +139,8 @@ class TriangleStore{
         float adjFactor = (toChangeSpeed) ? (defaultSpeed*speedAdjuster(fixMillis*rd2)) : defaultSpeed;
         p1 += tLength*adjFactor;
         p1 %= width;
+        p2 += (toYaxisNoise) ? (yAxisAdjuster(fixMillis)) : (0.0);
+        p2 %= height;
     }
 
     float speedAdjuster(float x){
@@ -144,6 +152,11 @@ class TriangleStore{
       c3 = sin(x*1.5)*sin(x*sin(speedOffset*x)) + 1;
 
       return c1 + c2 + c3;
+    }
+
+    float yAxisAdjuster(float x){
+
+      return sin(rd2*10 + x*0.005);
     }
 }
 
